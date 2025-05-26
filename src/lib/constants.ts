@@ -18,6 +18,24 @@ export const BANK_ACCOUNT_TYPES: BankAccountType[] = [
   'Checking', 'Savings', 'Investment', 'Other'
 ];
 
+export const COMMON_BANK_NAMES: string[] = [
+  'Bank of America',
+  'Chase Bank',
+  'Wells Fargo',
+  'Citibank',
+  'U.S. Bank',
+  'PNC Bank',
+  'TD Bank',
+  'Capital One',
+  'HSBC',
+  'Fiscal National Bank', // Added example from placeholder
+  'MyBank', // From mock data
+  'Global Credit', // From mock data
+  'Savings United', // From mock data
+  'First National', // From mock data
+  'Other', // For unlisted banks
+];
+
 export const MONTHS_OPTIONS = Array.from({ length: 12 }, (_, i) => ({
   value: (i + 1).toString(),
   label: `${i + 1} Month${i === 0 ? '' : 's'}`,

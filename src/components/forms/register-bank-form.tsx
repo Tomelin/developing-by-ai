@@ -22,12 +22,12 @@ import {
   SelectValue,
 } from '@/components/ui/select';
 import { DollarSign } from 'lucide-react';
-import { BANK_ACCOUNT_TYPES } from '@/lib/constants';
+import { BANK_ACCOUNT_TYPES, COMMON_BANK_NAMES } from '@/lib/constants';
 import { useToast } from '@/hooks/use-toast';
 import { registerBankAccount } from '@/lib/actions/bank.actions';
 
 const formSchema = z.object({
-  bankName: z.string().min(2, { message: 'Bank name must be at least 2 characters.' }).max(50),
+  bankName: z.string({ required_error: 'Please select a bank name.' }),
   accountNickname: z.string().min(2, { message: 'Account nickname must be at least 2 characters.' }).max(50),
   accountType: z.string({ required_error: 'Please select an account type.' }),
   initialBalance: z.coerce.number().min(0, { message: 'Initial balance cannot be negative.' }),
@@ -40,7 +40,7 @@ export function RegisterBankForm() {
   const form = useForm<RegisterBankFormData>({
     resolver: zodResolver(formSchema),
     defaultValues: {
-      bankName: '',
+      bankName: undefined,
       accountNickname: '',
       accountType: undefined,
       initialBalance: 0,
@@ -75,9 +75,20 @@ export function RegisterBankForm() {
             render={({ field }) => (
               <FormItem>
                 <FormLabel>Bank Name</FormLabel>
-                <FormControl>
-                  <Input placeholder="e.g., Fiscal National Bank" {...field} />
-                </FormControl>
+                <Select onValueChange={field.onChange} defaultValue={field.value}>
+                  <FormControl>
+                    <SelectTrigger>
+                      <SelectValue placeholder="Select a bank" />
+                    </SelectTrigger>
+                  </FormControl>
+                  <SelectContent>
+                    {COMMON_BANK_NAMES.map((bank) => (
+                      <SelectItem key={bank} value={bank}>
+                        {bank}
+                      </SelectItem>
+                    ))}
+                  </SelectContent>
+                </Select>
                 <FormMessage />
               </FormItem>
             )}
