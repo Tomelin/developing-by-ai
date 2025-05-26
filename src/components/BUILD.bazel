@@ -1,0 +1,102 @@
+# Defines Bazel targets for the React components.
+
+load("@aspect_rules_ts//ts:defs.bzl", "ts_library")
+
+# Library for general UI components
+ts_library(
+    name = "ui",
+    srcs = glob(["ui/**/*.tsx"]), # Assuming all UI components are .tsx
+    tsconfig = "//:tsconfig.json",
+    deps = [
+        "//src/lib:lib", # For utils like cn()
+        "@npm//react:react",
+        "@npm//typescript:typescript",
+        "@npm//lucide-react:lucide-react",
+        # Add Radix UI dependencies, e.g.:
+        "@npm//@radix-ui/react-accordion:react-accordion",
+        "@npm//@radix-ui/react-alert-dialog:react-alert-dialog",
+        "@npm//@radix-ui/react-avatar:react-avatar",
+        "@npm//@radix-ui/react-checkbox:react-checkbox",
+        "@npm//@radix-ui/react-dialog:react-dialog",
+        "@npm//@radix-ui/react-dropdown-menu:react-dropdown-menu",
+        "@npm//@radix-ui/react-label:react-label",
+        "@npm//@radix-ui/react-menubar:react-menubar",
+        "@npm//@radix-ui/react-popover:react-popover",
+        "@npm//@radix-ui/react-progress:react-progress",
+        "@npm//@radix-ui/react-radio-group:react-radio-group",
+        "@npm//@radix-ui/react-scroll-area:react-scroll-area",
+        "@npm//@radix-ui/react-select:react-select",
+        "@npm//@radix-ui/react-separator:react-separator",
+        "@npm//@radix-ui/react-slider:react-slider",
+        "@npm//@radix-ui/react-slot:react-slot",
+        "@npm//@radix-ui/react-switch:react-switch",
+        "@npm//@radix-ui/react-tabs:react-tabs",
+        "@npm//@radix-ui/react-toast:react-toast",
+        "@npm//@radix-ui/react-tooltip:react-tooltip",
+        "@npm//class-variance-authority:class-variance-authority",
+        "@npm//clsx:clsx",
+        "@npm//tailwind-merge:tailwind-merge",
+    ],
+)
+
+# Library for Bills components
+ts_library(
+    name = "bills_components",
+    srcs = glob(["bills/**/*.tsx"]),
+    tsconfig = "//:tsconfig.json",
+    deps = [
+        ":ui", # Depends on general UI components
+        "//src/lib:lib",
+        "//src/lib:actions", # May use actions
+        "@npm//react:react",
+        "@npm//typescript:typescript",
+        "@npm//lucide-react:lucide-react",
+    ],
+)
+
+# Library for Dashboard components
+ts_library(
+    name = "dashboard_components",
+    srcs = glob(["dashboard/**/*.tsx"]),
+    tsconfig = "//:tsconfig.json",
+    deps = [
+        ":ui",
+        "//src/lib:lib",
+        "@npm//react:react",
+        "@npm//typescript:typescript",
+        "@npm//recharts:recharts", # For charts
+        "@npm//lucide-react:lucide-react",
+    ],
+)
+
+# Library for Forms components
+ts_library(
+    name = "forms_components",
+    srcs = glob(["forms/**/*.tsx"]),
+    tsconfig = "//:tsconfig.json",
+    deps = [
+        ":ui",
+        "//src/lib:lib",
+        "//src/lib:actions", # Forms will likely use actions
+        "@npm//react:react",
+        "@npm//typescript:typescript",
+        "@npm//@hookform/resolvers:resolvers",
+        "@npm//react-hook-form:react-hook-form",
+        "@npm//zod:zod", # For form validation
+        "@npm//lucide-react:lucide-react",
+    ],
+)
+
+# Library for Shared components
+ts_library(
+    name = "shared_components",
+    srcs = glob(["shared/**/*.tsx"]),
+    tsconfig = "//:tsconfig.json",
+    deps = [
+        ":ui",
+        "//src/lib:lib",
+        "@npm//react:react",
+        "@npm//typescript:typescript",
+        "@npm//lucide-react:lucide-react",
+    ],
+)

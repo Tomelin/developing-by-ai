@@ -1,0 +1,44 @@
+# Defines Bazel targets for the TypeScript libraries.
+
+load("@aspect_rules_ts//ts:defs.bzl", "ts_library")
+
+# Library for core utility functions and types
+ts_library(
+    name = "lib",
+    srcs = [
+        "constants.ts",
+        "types.ts",
+        "utils.ts",
+    ],
+    tsconfig = "//:tsconfig.json", # Assuming tsconfig.json is in the root
+    deps = [
+        "@npm//typescript:typescript",
+        "@npm//date-fns:date-fns", # utils.ts might use this
+        "@npm//clsx:clsx", # utils.ts might use this
+        "@npm//tailwind-merge:tailwind-merge", # utils.ts might use this
+    ],
+)
+
+# Library for action functions (data fetching, mutations, etc.)
+ts_library(
+    name = "actions",
+    srcs = glob(["actions/*.ts"]),
+    tsconfig = "//:tsconfig.json",
+    deps = [
+        ":lib", # Depends on the core lib types/utils
+        "@npm//firebase:firebase",
+        "@npm//zod:zod", # Assuming actions might use Zod for validation
+        "@npm//typescript:typescript",
+    ],
+)
+
+# Library for Firebase configuration
+ts_library(
+    name = "firebase_config",
+    srcs = ["firebase/config.ts"],
+    tsconfig = "//:tsconfig.json",
+    deps = [
+        "@npm//firebase:firebase",
+        "@npm//typescript:typescript",
+    ],
+)
