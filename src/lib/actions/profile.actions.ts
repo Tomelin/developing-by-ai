@@ -36,14 +36,26 @@ export async function updateGoalsProfile(data: GoalsProfileFormData): Promise<Ac
   console.log('Updating goals:', data);
   await new Promise(resolve => setTimeout(resolve, 1000));
   
-  // Example: Check if any goal description is too short (just for simulation)
-  const allGoals = [
-    data.goal5_1, data.goal5_2, data.goal5_3,
-    data.goal10_1, data.goal10_2, data.goal10_3
+  const allGoalDescriptions = [
+    data.goal5_1.description, data.goal5_2.description, data.goal5_3.description,
+    data.goal10_1.description, data.goal10_2.description, data.goal10_3.description
   ];
-  if (allGoals.some(goal => goal && goal.length < 5)) {
-    return { success: false, message: 'Simulated failure: One of the goals is too short.'}
+
+  // Example: Check if any goal description is too short (just for simulation)
+  // Only validate if description is present and not empty.
+  if (allGoalDescriptions.some(desc => desc && desc.length > 0 && desc.length < 5)) {
+    return { success: false, message: 'Falha simulada: A descrição de uma das metas é muito curta (mínimo 5 caracteres).'}
+  }
+  
+  // Example: Check if estimated value is negative (already handled by Zod, but good for server-side)
+  const allGoalValues = [
+    data.goal5_1.estimatedValue, data.goal5_2.estimatedValue, data.goal5_3.estimatedValue,
+    data.goal10_1.estimatedValue, data.goal10_2.estimatedValue, data.goal10_3.estimatedValue,
+  ];
+  if (allGoalValues.some(value => value !== undefined && value < 0)) {
+     return { success: false, message: 'Falha simulada: O valor estimado de uma meta não pode ser negativo.'}
   }
 
-  return { success: true, message: 'Goals updated successfully.' };
+
+  return { success: true, message: 'Metas atualizadas com sucesso.' };
 }
