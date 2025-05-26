@@ -1,3 +1,4 @@
+
 import type { LucideIcon } from 'lucide-react';
 
 export interface NavItem {
@@ -43,3 +44,21 @@ export interface BankAccount {
   initialBalance: number;
   currentBalance?: number; // Optional, could be calculated
 }
+
+export type IndustrySector = 
+  | 'Technology'
+  | 'Healthcare'
+  | 'Finance'
+  | 'Education'
+  | 'Manufacturing'
+  | 'Retail'
+  | 'Real Estate'
+  | 'Hospitality'
+  | 'Government'
+  | 'Non-profit'
+  | 'Agriculture'
+  | 'Energy'
+  | 'Transportation'
+  | 'Media & Entertainment'
+  | 'Consulting'
+  | 'Other';

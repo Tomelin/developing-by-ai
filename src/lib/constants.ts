@@ -1,5 +1,6 @@
-import type { NavItem, TransactionCategory, BankAccountType } from '@/lib/types';
-import { LayoutDashboard, ListChecks, PlusCircle, CreditCard, Landmark, Settings } from 'lucide-react';
+
+import type { NavItem, TransactionCategory, BankAccountType, IndustrySector } from '@/lib/types';
+import { LayoutDashboard, ListChecks, PlusCircle, CreditCard, Landmark, Settings, UserCircle } from 'lucide-react';
 
 export const NAV_ITEMS: NavItem[] = [
   { id: 'dashboard', label: 'Dashboard', href: '/dashboard', icon: LayoutDashboard },
@@ -7,6 +8,7 @@ export const NAV_ITEMS: NavItem[] = [
   { id: 'record-transaction', label: 'Record Transaction', href: '/transactions/record', icon: PlusCircle },
   { id: 'register-card', label: 'Credit Cards', href: '/cards', icon: CreditCard },
   { id: 'register-bank', label: 'Bank Accounts', href: '/banks', icon: Landmark },
+  { id: 'profile', label: 'User Profile', href: '/profile', icon: UserCircle },
   // { id: 'settings', label: 'Settings', href: '/settings', icon: Settings }, // Example for future expansion
 ];
 
@@ -45,6 +47,25 @@ export const DAY_OF_MONTH_OPTIONS = Array.from({ length: 31 }, (_, i) => ({
   value: (i + 1).toString(),
   label: (i + 1).toString(),
 }));
+
+export const INDUSTRY_SECTORS: IndustrySector[] = [
+  'Technology',
+  'Healthcare',
+  'Finance',
+  'Education',
+  'Manufacturing',
+  'Retail',
+  'Real Estate',
+  'Hospitality',
+  'Government',
+  'Non-profit',
+  'Agriculture',
+  'Energy',
+  'Transportation',
+  'Media & Entertainment',
+  'Consulting',
+  'Other',
+];
 
 export const MOCK_TRANSACTIONS: import('./types').Transaction[] = [
   { id: '1', description: 'Monthly Salary', amount: 5000, type: 'receivable', dueDate: new Date(2024, 6, 5), category: 'Salary', isRecurring: true, recurrenceMonths: 12, status: 'Pending' },
