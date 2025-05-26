@@ -19,11 +19,16 @@ import { Input } from '@/components/ui/input';
 import { useToast } from '@/hooks/use-toast';
 import { updateGoalsProfile } from '@/lib/actions/profile.actions';
 import { Separator } from '@/components/ui/separator';
-import { DollarSign } from 'lucide-react';
+import { DollarSign, CalendarIcon as CalendarIconLucide } from 'lucide-react'; // Renamed to avoid conflict
+import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover';
+import { Calendar } from '@/components/ui/calendar';
+import { cn } from '@/lib/utils';
+import { format } from 'date-fns';
 
 const GoalSchema = z.object({
   description: z.string().max(500, "A descrição da meta é muito longa (máx. 500 caracteres)").optional().default(''),
   estimatedValue: z.coerce.number().positive({ message: "O valor estimado deve ser um número positivo." }).optional(),
+  targetDate: z.date().optional(),
 });
 
 const goalsProfileFormSchema = z.object({
@@ -42,12 +47,12 @@ export function GoalsProfileForm() {
   const form = useForm<GoalsProfileFormData>({
     resolver: zodResolver(goalsProfileFormSchema),
     defaultValues: {
-      goal5_1: { description: '', estimatedValue: undefined },
-      goal5_2: { description: '', estimatedValue: undefined },
-      goal5_3: { description: '', estimatedValue: undefined },
-      goal10_1: { description: '', estimatedValue: undefined },
-      goal10_2: { description: '', estimatedValue: undefined },
-      goal10_3: { description: '', estimatedValue: undefined },
+      goal5_1: { description: '', estimatedValue: undefined, targetDate: undefined },
+      goal5_2: { description: '', estimatedValue: undefined, targetDate: undefined },
+      goal5_3: { description: '', estimatedValue: undefined, targetDate: undefined },
+      goal10_1: { description: '', estimatedValue: undefined, targetDate: undefined },
+      goal10_2: { description: '', estimatedValue: undefined, targetDate: undefined },
+      goal10_3: { description: '', estimatedValue: undefined, targetDate: undefined },
     },
   });
 
@@ -105,6 +110,43 @@ export function GoalsProfileForm() {
                 </div>
               </FormControl>
               <FormDescription>Custo ou valor estimado para alcançar esta meta.</FormDescription>
+              <FormMessage />
+            </FormItem>
+          )}
+        />
+        <FormField
+          control={form.control}
+          name={`${fieldName}.targetDate`}
+          render={({ field }) => (
+            <FormItem className="flex flex-col">
+              <FormLabel>Data Alvo (Opcional)</FormLabel>
+              <Popover>
+                <PopoverTrigger asChild>
+                  <FormControl>
+                    <Button
+                      variant={'outline'}
+                      className={cn(
+                        'pl-3 text-left font-normal w-full justify-start', // Ensure button takes full width and aligns start
+                        !field.value && 'text-muted-foreground'
+                      )}
+                    >
+                      {field.value ? format(field.value, 'PPP') : <span>Escolha uma data</span>}
+                      <CalendarIconLucide className="ml-auto h-4 w-4 opacity-50" />
+                    </Button>
+                  </FormControl>
+                </PopoverTrigger>
+                <PopoverContent className="w-auto p-0" align="start">
+                  <Calendar
+                    mode="single"
+                    selected={field.value}
+                    onSelect={field.onChange}
+                    // Example: disable past dates for future goals if needed
+                    // disabled={(date) => date < new Date() } 
+                    initialFocus
+                  />
+                </PopoverContent>
+              </Popover>
+              <FormDescription>Data limite para alcançar esta meta.</FormDescription>
               <FormMessage />
             </FormItem>
           )}

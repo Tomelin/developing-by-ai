@@ -33,7 +33,7 @@ export async function updateProfessionalProfile(data: ProfessionalProfileFormDat
 }
 
 export async function updateGoalsProfile(data: GoalsProfileFormData): Promise<ActionResult> {
-  console.log('Updating goals:', data);
+  console.log('Updating goals with target dates:', data); // Updated log message
   await new Promise(resolve => setTimeout(resolve, 1000));
   
   const allGoalDescriptions = [
@@ -41,13 +41,10 @@ export async function updateGoalsProfile(data: GoalsProfileFormData): Promise<Ac
     data.goal10_1.description, data.goal10_2.description, data.goal10_3.description
   ];
 
-  // Example: Check if any goal description is too short (just for simulation)
-  // Only validate if description is present and not empty.
   if (allGoalDescriptions.some(desc => desc && desc.length > 0 && desc.length < 5)) {
     return { success: false, message: 'Falha simulada: A descrição de uma das metas é muito curta (mínimo 5 caracteres).'}
   }
   
-  // Example: Check if estimated value is negative (already handled by Zod, but good for server-side)
   const allGoalValues = [
     data.goal5_1.estimatedValue, data.goal5_2.estimatedValue, data.goal5_3.estimatedValue,
     data.goal10_1.estimatedValue, data.goal10_2.estimatedValue, data.goal10_3.estimatedValue,
@@ -55,7 +52,17 @@ export async function updateGoalsProfile(data: GoalsProfileFormData): Promise<Ac
   if (allGoalValues.some(value => value !== undefined && value < 0)) {
      return { success: false, message: 'Falha simulada: O valor estimado de uma meta não pode ser negativo.'}
   }
+  
+  // You can add validation for targetDate here if needed, e.g., targetDate should not be in the past.
+  // For example:
+  // const allTargetDates = [
+  //   data.goal5_1.targetDate, data.goal5_2.targetDate, data.goal5_3.targetDate,
+  //   data.goal10_1.targetDate, data.goal10_2.targetDate, data.goal10_3.targetDate,
+  // ];
+  // if (allTargetDates.some(date => date && date < new Date())) {
+  //   return { success: false, message: 'Falha simulada: A data alvo de uma meta não pode ser no passado.'}
+  // }
 
 
-  return { success: true, message: 'Metas atualizadas com sucesso.' };
+  return { success: true, message: 'Metas atualizadas com sucesso (com datas alvo).' }; // Updated success message
 }
