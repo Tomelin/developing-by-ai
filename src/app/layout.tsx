@@ -1,3 +1,4 @@
+
 'use client';
 
 import type { Metadata } from 'next';
@@ -85,7 +86,7 @@ export default function RootLayout({
               </SidebarMenu>
             </SidebarContent>
             <SidebarFooter className="p-2">
-               <div className="flex items-center gap-2 p-2 rounded-md group-data-[collapsible=icon]:justify-center">
+               <Link href="/profile" className="flex items-center gap-2 p-2 rounded-md hover:bg-sidebar-accent group-data-[collapsible=icon]:justify-center">
                  <Avatar className="h-8 w-8">
                    <AvatarImage src="https://placehold.co/40x40.png" alt="User Avatar" data-ai-hint="user avatar" />
                    <AvatarFallback>FF</AvatarFallback>
@@ -94,7 +95,7 @@ export default function RootLayout({
                     <span className="text-sm font-medium text-sidebar-foreground">Demo User</span>
                     <span className="text-xs text-muted-foreground">user@fiscalflow.com</span>
                  </div>
-               </div>
+               </Link>
             </SidebarFooter>
           </Sidebar>
           <SidebarInset className="flex flex-col">
