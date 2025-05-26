@@ -1,0 +1,25 @@
+# Defines a Bazel target for the Next.js application.
+
+load("@aspect_rules_ts//ts:defs.bzl", "ts_project")
+
+ts_project(
+    name = "app",
+    srcs = glob([
+        "**/*.ts",
+        "**/*.tsx",
+        "**/*.js", # Include JavaScript files if any
+        "**/*.jsx", # Include JSX files if any
+    ]),
+    # Assuming a tsconfig.json exists in the parent directory or workspace root.
+    # If it's in src/app, the path would be "//src/app:tsconfig.json"
+    tsconfig = "//:tsconfig.json", 
+    deps = [
+        "@npm//@types/node:node",
+        "@npm//next:next",
+        "@npm//react:react",
+        "@npm//react-dom:react-dom",
+        "@npm//typescript:typescript",
+        # Add other necessary npm dependencies here
+        # e.g., "//src/lib:actions", "//src/components:ui" when those are defined
+    ],
+)
